@@ -21,7 +21,7 @@ $httpHeaders->addHeaders([
     'Content-Type' => 'application/json'
 ]);
 $request->setHeaders($httpHeaders);
-$request->setUri('http://mrealex.dev/index.php/rest/V1/integration/admin/token');
+$request->setUri('http://magento.dev/index.php/rest/V1/integration/admin/token');
 $request->setMethod(\Zend_Http_Client::POST);
 $params = new \Zend\Stdlib\Parameters([
     'username' => 'admin',
@@ -40,7 +40,7 @@ $httpHeaders->addHeaders([
     'Content-Type' => 'application/json'
 ]);
 $request->setHeaders($httpHeaders);
-$request->setUri('http://mrealex.dev/index.php/rest/V1/customers/search');
+$request->setUri('http://magento.dev/index.php/rest/V1/customers/search');
 $request->setMethod(\Zend_Http_Client::GET);
 $params = new \Zend\Stdlib\Parameters([
     'searchCriteria' => '*'
