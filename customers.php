@@ -1,13 +1,9 @@
 #!/usr/bin/env php
 <?php
 
-try {
-    require __DIR__ . '/app/bootstrap.php';
-} catch (\Exception $e) {
-    echo 'Autoload error: ' . $e->getMessage();
-    exit(1);
-}
+require __DIR__ . '/vendor/autoload.php';
 
+$url = 'http://magento.dev/';
 $config = array(
     'adapter'   => 'Zend\Http\Client\Adapter\Curl',
     'curloptions' => array(CURLOPT_FOLLOWLOCATION => true),
@@ -21,8 +17,8 @@ $httpHeaders->addHeaders([
     'Content-Type' => 'application/json'
 ]);
 $request->setHeaders($httpHeaders);
-$request->setUri('http://magento.dev/index.php/rest/V1/integration/admin/token');
-$request->setMethod(\Zend_Http_Client::POST);
+$request->setUri($url . 'rest/V1/integration/admin/token');
+$request->setMethod(\Zend\Http\Request::METHOD_POST);
 $params = new \Zend\Stdlib\Parameters([
     'username' => 'admin',
     'password' => '123123q'
@@ -40,8 +36,8 @@ $httpHeaders->addHeaders([
     'Content-Type' => 'application/json'
 ]);
 $request->setHeaders($httpHeaders);
-$request->setUri('http://magento.dev/index.php/rest/V1/customers/search');
-$request->setMethod(\Zend_Http_Client::GET);
+$request->setUri($url . 'rest/V1/customers/search');
+$request->setMethod(\Zend\Http\Request::METHOD_GET);
 $params = new \Zend\Stdlib\Parameters([
     'searchCriteria' => '*'
 ]);

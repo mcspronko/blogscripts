@@ -1,0 +1,19 @@
+{
+    "name": "pronko/customer-api-example",
+    "description": "Get Customer via Magento 2 API example",
+    "type": "project",
+    "version": "0.1.0",
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
+    "require": {
+        "php": "~5.5.0|~5.6.0|~7.0.0",
+        "zendframework/zend-http": "2.4.0"
+    },
+    "require-dev": {
+        "ext-curl": "*"
+    },
+    "minimum-stability": "alpha",
+    "prefer-stable": true
+}
