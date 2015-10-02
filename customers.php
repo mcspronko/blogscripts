@@ -20,14 +20,14 @@ $request->setHeaders($httpHeaders);
 $request->setUri($url . 'rest/V1/integration/admin/token');
 $request->setMethod(\Zend\Http\Request::METHOD_POST);
 $params = new \Zend\Stdlib\Parameters([
-    'username' => 'admin',
+    'username' => 'apiuser',
     'password' => '123123q'
 ]);
 $request->setQuery($params);
 
 $response = $client->send($request);
 
-$token = $response->getContent();
+$token = json_decode($response->getContent());
 var_dump('Token: ' . $token);
 $request = new \Zend\Http\Request();
 $httpHeaders->addHeaders([
