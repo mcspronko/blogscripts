@@ -3,46 +3,57 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
-$url = 'http://magento.dev/';
-$config = array(
-    'adapter'   => 'Zend\Http\Client\Adapter\Curl',
-    'curloptions' => array(CURLOPT_FOLLOWLOCATION => true),
+use Laminas\Http\Client;
+use Laminas\Http\Headers;
+use Laminas\Http\Request;
+use Laminas\Stdlib\Parameters;
+
+$url = 'https://magento.test/';
+$tokenEndpoint = 'rest/V1/integration/admin/token';
+
+$client = new Client();
+$client->setOptions([
     'maxredirects' => 0,
     'timeout' => 30
-);
-$client = new Zend\Http\Client(null, $config);
-$request = new \Zend\Http\Request();
-$httpHeaders = new \Zend\Http\Headers();
-$httpHeaders->addHeaders([
-    'Content-Type' => 'application/json'
 ]);
-$request->setHeaders($httpHeaders);
-$request->setUri($url . 'rest/V1/integration/admin/token');
-$request->setMethod(\Zend\Http\Request::METHOD_POST);
-$params = new \Zend\Stdlib\Parameters([
-    'username' => 'apiuser',
-    'password' => '123123q'
+$request = new Request();
+$request->setUri($url . $tokenEndpoint);
+$request->setMethod('POST');
+$headers = new Headers();
+$headers->addHeaders([
+    'Content-Type' => 'application/json',
 ]);
+$request->setHeaders($headers);
+$params = new Parameters();
+$params->set('username', 'admin-name');
+$params->set('password', 'admin-password');
 $request->setQuery($params);
 
-$response = $client->send($request);
+//$response = $client->send($request);
 
-$token = json_decode($response->getContent());
-var_dump('Token: ' . $token);
-$request = new \Zend\Http\Request();
-$httpHeaders->addHeaders([
+//var_dump('Token: ' . $response->getContent());
+
+// Access Token from the Admin -> System -> Integrations page.
+$token = '992mlrl5qzd3wqz0mhnkfhrsey98of6v';
+
+$headers = new Headers();
+$headers->addHeaders([
     'Authorization' => 'Bearer ' . $token,
     'Accept' => 'application/json',
-    'Content-Type' => 'application/json'
+    'Content-Type' => 'application/json',
 ]);
-$request->setHeaders($httpHeaders);
+
+$request->setHeaders($headers);
 $request->setUri($url . 'rest/V1/customers/search');
-$request->setMethod(\Zend\Http\Request::METHOD_GET);
-$params = new \Zend\Stdlib\Parameters([
+$request->setMethod('GET');
+$params = new Parameters([
     'searchCriteria' => '*'
 ]);
 $request->setQuery($params);
 
 $response = $client->send($request);
 
-print_r($response->getContent());
+$result = json_decode($response->getBody(), true);
+$customer = array_shift($result['items']);
+
+var_dump($customer['firstname'] . ' ' . $customer['lastname']);
